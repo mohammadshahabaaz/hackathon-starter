@@ -1,0 +1,8 @@
+extends ../layout
+
+block content
+    .page-header
+        h3 Create Sport
+        ul
+            each val in values.length ? values : ['There are no values']
+                li= val.name
