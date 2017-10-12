@@ -150,6 +150,7 @@ app.get('/getUpdate/:name', sportController.getUpdate);
 app.post('/update',sportController.update);
 
 
+
 /**
  * API examples routes.
  */

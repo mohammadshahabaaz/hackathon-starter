@@ -28,7 +28,7 @@ exports.createSport = (req, res, next) => {
 
     const sport = new Sport({
         name: req.body.name,
-        type: req.body.type
+        type: req.body.type,
     });
 
     Sport.findOne({ name: req.body.name }, (err, existingUser) => {
@@ -92,9 +92,10 @@ exports.getUpdate = (req, res) => {
 };
 exports.update = (req, res) => {
 
-    Sport.findOneAndUpdate({_id: req.body.id}, req.body, function (err, place) {
-        //console.log(sport);
-        res.redirect('/sportsList')
-
+    Sport.findOneAndUpdate({_id: req.body.id}, req.body, function (err, sport) {
+        // console.log(sport);
+        //res.redirect('/sportsList')
+        res.json(sport);
     });
 }
+

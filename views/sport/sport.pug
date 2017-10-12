@@ -1,24 +1,46 @@
 extends ../layout
 
 block content
-    .page-header
-        h3 Create Sport
+    style(type="text/css").
+        .editform {
+        display:none;
+        }
+
+
+
+    .page-header.displayform
+        h3  Sport DEtails
         ul
-            li= sport.name
-            a(href="/getUpdate/"+sport.name) edit
+            li#savedname= sport.name
 
-
-
-
-
-
-
+            li#savedtype= sport.type
+            a#edit(href="#") edit
             form.form-horizontal(id='signup-form', method='POST' action='/deleteSport')
-                input(type='hidden', name='_csrf', value=_csrf)
+                input(type='hidden', name='_csrf2', value=_csrf )
                 input(type='hidden', name='name', value=sport.name)
                 .form-group
                     .col-sm-offset-3.col-sm-7
                         button.btn.btn-success(type='submit')
                             i.fa.fa-user-plus
                             | delete sport
+
+
+
+
+                        //editform
+    .editform
+        h3 Create Sport
+        ul
+            form.form-horizontal(id='signup-form1', method='POST' action='/update')
+                input(type='hidden', name='_csrf', value=_csrf id="_csrf")
+                input(type='hidden', name='id', value=sport.id id="id")
+                input(type='text', name='name', value=sport.name ,id='name')
+                input(type='text', name='type', value=sport.type ,id='type')
+                .form-group
+                    .col-sm-offset-3.col-sm-7
+                        button.btn.btn-success#updateserver(type='Edit')
+                            i.fa.fa-user-plus
+                            | Update
+
+
 
