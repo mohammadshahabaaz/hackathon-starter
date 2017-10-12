@@ -16,7 +16,6 @@ block content
             li#savedtype= sport.type
             a#edit(href="#") edit
             form.form-horizontal(id='signup-form', method='POST' action='/deleteSport')
-                input(type='hidden', name='_csrf2', value=_csrf )
                 input(type='hidden', name='name', value=sport.name)
                 .form-group
                     .col-sm-offset-3.col-sm-7

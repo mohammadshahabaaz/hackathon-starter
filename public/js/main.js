@@ -25,13 +25,13 @@ $(document).ready(function() {
   });
 
 
-    $('.button').click(function() {
+ /*   $('.button').click(function() {
         $.ajax({
             method: "POST",
             url: "/deleteSport",
             data: {name: $("#name").val(), type: $("#type").val()},
 
         });
-    });
+    });*/
 
 });

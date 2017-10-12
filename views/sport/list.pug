@@ -3,10 +3,7 @@ extends ../layout
 block content
     .page-header
         h3 Create Sport
-    form.form-horizontal(id='signup-form', method='POST' action='/deleteSport')
-        input(type='hidden', name='name', value=sport.name)
-        .form-group
-            .col-sm-offset-3.col-sm-7
-                button.btn.btn-success.button(type='submit')
-                    i.fa.fa-user-plus
-                    | delete sport
+        ul
+            each val in values.length ? values : ['There are no values']
+                li= val.name
+
