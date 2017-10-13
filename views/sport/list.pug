@@ -6,4 +6,13 @@ block content
         ul
             each val in values.length ? values : ['There are no values']
                 li= val.name
+                form.form-horizontal(id='signup-form', method='POST' action='/deleteSport')
+                    input(type='hidden', name='name', value=val.name)
+                    input(type='hidden', name='_csrf', value=_csrf id="_csrf")
+                    .form-group
+                        .col-sm-offset-3.col-sm-7
+                            button.btn.btn-success(type='submit')
+                                i.fa.fa-user-plus
+                                | delete sport
+
 
