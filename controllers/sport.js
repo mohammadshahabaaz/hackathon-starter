@@ -64,13 +64,15 @@ exports.getsport=(req,res)=>{
 
         console.log(sport);
 
+
         res.render("sport/sport", {sport:sport});
 
     });
 }
 exports.deleteSport=(req,res)=> {
+    console.log(req.body)
 
-    Sport.remove({name: req.body.name}, function (err, sport) {
+    Sport.remove({_id: req.body.id}, function (err, sport) {
 
         console.log(sport);
 

@@ -28,6 +28,45 @@ $(document).ready(function() {
 
 
 
+     $('#delete').click(function(e){
+         e.preventDefault()
+         $.ajax({
+             url:'/deleteSport',
+             type:'POST',
+             data:{_csrf:$("#_csrf2").val(),id: $("#id").val()}
+         })
+             .done(function (data) {
+                console.log(data)
+             });
+
+  });
+
+    $(function() {
+        $('form').each(function() {
+            var form = this;
+            $(form).find(".deletebutton").click(function (e) {
+                e.preventDefault();
+               var id = $(form).find(".id").val()
+                var _csrf=$(form).find(".csrf").val()
+                $.ajax({
+                    method: "POST",
+                    url: '/deleteSport' ,
+                    data: {_csrf: _csrf, id: id}
+
+                })
+                    .done(function (json) {
+                        console.log($("#id").val())
+                        console.log(json);
+                        //$('.sportsList').show();
+
+                        $("."+id).remove();
+
+                        $( form ).remove();
+                    });
+            });
+        });
+            });
+
 
 
 });

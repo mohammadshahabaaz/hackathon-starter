@@ -11,15 +11,15 @@ block content
     .page-header.displayform
         h3  Sport DEtails
         ul
-            li#savedname= sport.name
-
-            li#savedtype= sport.type
+            li= sport.name
+            li= sport.type
             a#edit(href="#") edit
             form.form-horizontal(id='signup-form', method='POST' action='/deleteSport')
-                input(type='hidden', name='name', value=sport.name)
+                input(type='hidden', name='_csrf', value=_csrf id="_csrf2")
+                input(type='hidden', name='id', value=sport.id)
                 .form-group
                     .col-sm-offset-3.col-sm-7
-                        button.btn.btn-success(type='submit')
+                        button.btn.btn-danger#delete(type='submit')
                             i.fa.fa-user-plus
                             | delete sport
 

@@ -33,6 +33,8 @@ dotenv.load({ path: '.env.example' });
 const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
 const sportController = require('./controllers/sport');
+const venueController = require('./controllers/venue');
+
 const apiController = require('./controllers/api');
 const contactController = require('./controllers/contact');
 
@@ -143,13 +145,14 @@ app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userControl
 
 app.get('/createSportForm', sportController.createSportForm);
 app.post('/createSport', sportController.createSport);
-  app.get('/sportsList', sportController.sportsList);
+app.get('/sportsList', sportController.sportsList);
 app.get('/sport/:name', sportController.getsport);
 app.post('/deleteSport', sportController.deleteSport);
 app.get('/getUpdate/:name', sportController.getUpdate);
 app.post('/update',sportController.update);
 
-
+// venue
+app.get('/venueSelection',venueController.venueSelection);
 
 /**
  * API examples routes.
