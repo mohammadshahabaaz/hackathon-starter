@@ -33,13 +33,16 @@ const venueReviewSchema = new mongoose.Schema({
 const venueSchema = new mongoose.Schema({
     name: String,
     address:String,
-    email:{ type: String, unique: true },
+    email:{ type: String },
     phone:Number,
     description:String,
-    spotsType:[sportsTypeSchema],
+    sportsType:[sportsTypeSchema],
     venuePhoto:[venuePhotoSchema],
     venuePrices:[venuePricesSchema],
     venueReview:[venueReviewSchema],
 
 },{ timestamps: true });
 
+const Venue = mongoose.model('Venue', venueSchema);
+
+module.exports = Venue;

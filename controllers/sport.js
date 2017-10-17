@@ -14,17 +14,6 @@ exports.createSportForm = (req, res) => {
  * Create a new local account.
  */
 exports.createSport = (req, res, next) => {
-   // req.assert('email', 'Email is not valid').isEmail();
-    //req.assert('password', 'Password must be at least 4 characters long').len(4);
-    //req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
-    //req.sanitize('email').normalizeEmail({ gmail_remove_dots: false });
-
-//    const errors = req.validationErrors();
-
-   // if (errors) {
-   //     req.flash('errors', errors);
-    //    return res.redirect('/createSportForm');
-    //}
 
     const sport = new Sport({
         name: req.body.name,

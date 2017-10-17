@@ -89,15 +89,15 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-app.use((req, res, next) => {
-  if (req.path === '/api/upload') {
-    next();
-  } else {
-    lusca.csrf()(req, res, next);
-  }
-});
-app.use(lusca.xframe('SAMEORIGIN'));
-app.use(lusca.xssProtection(true));
+// app.use((req, res, next) => {
+//   if (req.path === '/api/upload') {
+//     next();
+//   } else {
+//     lusca.csrf()(req, res, next);
+//   }
+// });
+// app.use(lusca.xframe('SAMEORIGIN'));
+// app.use(lusca.xssProtection(true));
 app.use((req, res, next) => {
   res.locals.user = req.user;
   next();
@@ -152,7 +152,13 @@ app.get('/getUpdate/:name', sportController.getUpdate);
 app.post('/update',sportController.update);
 
 // venue
-app.get('/venueSelection',venueController.venueSelection);
+app.post('/venueSelection',venueController.venueSelection);
+app.post('/createVenue',venueController.createVenue);
+app.get('/venuesList', venueController.venuesList);
+app.get('/getVenue/:id', venueController.getVenue);
+app.post('/venueEdit/:id', venueController.venueEdit);
+app.post('/deleteVenue/:id', venueController.deleteVenue);
+app.post('addSportsType', venueController.addSportsType);
 
 /**
  * API examples routes.
