@@ -10,6 +10,19 @@ exports.venueSelection = (req, res) => {
 //use Details..............
 
 exports.createVenue = (req, res, next) => {
+    //Express validation
+    req.checkBody("email", "Enter a valid email address.").isEmail();
+
+    req.checkBody(
+        "phone",
+        "Enter a valid IND phone number.").isMobilePhone("en-IN");
+    var errors = req.validationErrors();
+    if (errors) {
+        res.send(errors);
+        return;
+    } else {
+        // normal processing here
+    }
 
     const venue = new Venue({
         name: req.body.name,
@@ -84,16 +97,71 @@ exports.venueEdit=(req,res)=>{
      });
  };
 //add sportType
-exports.addSportsType=(req,res)=>{
-    Venue.addOneAndUpdate({_id:req.params.id},function(err, venue){
-        console.log(venue);
-        venue.sportsType = venue.sportsType.concat(req.body.sportsType);
+exports.addSportsType=(req,res)=> {
+    if (req.body.sportsType) {
+        Venue.findOne({_id: req.params.id}, function (err, venue) {
+            console.log(venue.sportsType);
+            venue.sportsType = venue.sportsType.concat(req.body.sportsType);
+            console.log(venue.sportsType, req.body);
 
-        venue.save(function (err, newvenue) {
-            if (err) {
-                req.flash('errors', {msg: 'Something wrong'})
+
+            venue.save(function (err, venue) {
+                if (err) {
+                    req.flash('errors', {msg: 'Something wrong'})
+                }
+                res.json({venue: venue, status: " success !!"})
+            });
+        })
+    }else{
+      res.json({status:"error"})
+    }
+}
+
+
+// edit sportsType
+exports.editSportsType=(req,res)=> {
+    console.log(req.body);
+    Venue.findOneAndUpdate(
+        {
+            _id: req.params.id,
+            "sportsType._id":req.params.sportsTypeId,
+        },
+        {
+            "$set": {
+                "sportsType.$.name":req.body.sportsType[0].name,
             }
-            res.json({venue: newvenue, status: " success !!"})
-        });
-    })
+        },
+        {new:true},
+        function (err, venue) {
+
+        console.log(venue   );
+
+        res.json({venue:venue, status: " success !!"})
+    });
+}
+
+// delete sportsType
+exports.deleteSportsType=(req,res)=> {
+    console.log(req.params);
+    Venue.sportsType.remove({
+        _id: req.params.id,
+        "sportsType._id":req.params.sportsTypeId
+    },{new:true},
+        function (err, venue) {
+
+        console.log(venue);
+
+        res.json({venue:venue,status: "success"});
+
+    });
+}
+//sportsType list
+exports.listSportsType=(req,res)=>{
+    Venue.find({_id: req.params.id}, function(err, venues) {
+
+        console.log(venues[0]);
+
+        res.json( {values:venues[0].sportsType});
+    });
+
 }

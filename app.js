@@ -158,7 +158,10 @@ app.get('/venuesList', venueController.venuesList);
 app.get('/getVenue/:id', venueController.getVenue);
 app.post('/venueEdit/:id', venueController.venueEdit);
 app.post('/deleteVenue/:id', venueController.deleteVenue);
-app.post('addSportsType', venueController.addSportsType);
+app.post('/addSportsType/:id', venueController.addSportsType);
+app.post('/editSportsType/:id/:sportsTypeId', venueController.editSportsType);
+app.post('/deleteSportsType/:id/:sportsTypeId', venueController.deleteSportsType);
+app.get('/listSportsType/:id', venueController.listSportsType);
 
 /**
  * API examples routes.
