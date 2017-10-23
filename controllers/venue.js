@@ -31,6 +31,10 @@ exports.createVenue = (req, res, next) => {
         phone:req.body.phone,
         description:req.body.description,
         sportsType:req.body.sportsType,
+        venuePhoto:req.body.venuePhoto,
+        venuePrices:req.body.venuePrices,
+        venueReview:req.body.venueReview,
+
 
     });
 
@@ -164,4 +168,14 @@ exports.listSportsType=(req,res)=>{
         res.json( {values:venues[0].sportsType});
     });
 
+}
+// uploadVenuePhoto
+exports.uploadVenuePhoto=(req,res)=>{
+    {
+        var upload = multer({
+            storage: storage
+        }).single('userFile')
+        upload(req, res, function(err) {
+            res.end('File is uploaded')
+        })
 }

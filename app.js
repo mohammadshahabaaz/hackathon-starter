@@ -162,7 +162,7 @@ app.post('/addSportsType/:id', venueController.addSportsType);
 app.post('/editSportsType/:id/:sportsTypeId', venueController.editSportsType);
 app.post('/deleteSportsType/:id/:sportsTypeId', venueController.deleteSportsType);
 app.get('/listSportsType/:id', venueController.listSportsType);
-
+app.post('/uploadVenuePhoto',venueController.uploadVenuePhoto)
 /**
  * API examples routes.
  */
