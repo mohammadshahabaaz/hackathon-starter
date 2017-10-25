@@ -170,12 +170,46 @@ exports.listSportsType=(req,res)=>{
 
 }
 // uploadVenuePhoto
+
+
+var multer = require('multer');
+const path = require('path');
+
+
+var storage = multer.diskStorage({
+    destination:function(req,file,callback){
+       callback(null,'./uploads');
+},
+    filename:function (req,file,callback) {
+        callback(null, file.fieldname + '-' + Date.now() +
+            path.extname(file.originalname))
+    }
+});
+
+
 exports.uploadVenuePhoto=(req,res)=>{
-    {
-        var upload = multer({
-            storage: storage
-        }).single('userFile')
-        upload(req, res, function(err) {
+
+    var upload = multer({
+        storage: storage,
+        fileFilter: function(req, file, callback) {
+            var ext = path.extname(file.originalname)
+            if (ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
+                // return callback(res.send('Only images are allowed'), null)
+                return res.end('File is problem')
+
+            }
+            callback(null, true)
+        }
+    }).single('userFile');
+        upload(req, res, function(err)
+        {
+            if(err) {
+            return res.send(err)
+            }
+
+
+
+
             res.end('File is uploaded')
-        })
+        });
 }
