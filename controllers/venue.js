@@ -174,42 +174,40 @@ exports.listSportsType=(req,res)=>{
 
 var multer = require('multer');
 const path = require('path');
+var fs = require('fs');
 
+var MAGIC_NUMBERS = {
+    jpg: 'ffd8ffe0',
+    jpg1: 'ffd8ffe1',
+    png: '89504e47',
+    gif: '47494638'
+}
 
-var storage = multer.diskStorage({
-    destination:function(req,file,callback){
-       callback(null,'./uploads');
-},
-    filename:function (req,file,callback) {
-        callback(null, file.fieldname + '-' + Date.now() +
-            path.extname(file.originalname))
-    }
-});
+function checkMagicNumbers(magic) {
+    if (magic == MAGIC_NUMBERS.jpg || magic == MAGIC_NUMBERS.jpg1 || magic == MAGIC_NUMBERS.png || magic == MAGIC_NUMBERS.gif) return true
+}
 
-
-exports.uploadVenuePhoto=(req,res)=>{
+exports.uploadVenuePhoto=(req,res)=> {
 
     var upload = multer({
-        storage: storage,
-        fileFilter: function(req, file, callback) {
-            var ext = path.extname(file.originalname)
-            if (ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
-                // return callback(res.send('Only images are allowed'), null)
-                return res.end('File is problem')
-
+        storage: multer.memoryStorage()
+    }).any()
+    upload(req, res, function (err) {
+        for(var i=0;i<req.files.length;i++){
+            // console.log(req.files);
+            var buffer = req.files[i].buffer
+            // console.log(buffer);
+            var magic = buffer.toString('hex',0,4);
+            var filename = req.files[i].fieldname + '-' + Date.now() + path.extname(req.files[i].originalname)
+            if (checkMagicNumbers(magic)) {
+                fs.writeFile('./uploads/' + filename, buffer, 'binary', function (err) {
+                    if (err) throw err
+                    res.end('File is uploaded')
+                })
+            } else {
+                res.end('File is no valid')
             }
-            callback(null, true)
         }
-    }).single('userFile');
-        upload(req, res, function(err)
-        {
-            if(err) {
-            return res.send(err)
-            }
 
-
-
-
-            res.end('File is uploaded')
-        });
+    })
 }
