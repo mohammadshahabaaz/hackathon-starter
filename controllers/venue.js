@@ -1,4 +1,4 @@
-const passport = require('passport');
+    const passport = require('passport');
 const Venue = require('../models/Venue');
 //venue selection.................
 
@@ -10,6 +10,8 @@ exports.venueSelection = (req, res) => {
 //use Details..............
 
 exports.createVenue = (req, res, next) => {
+    console.log(req.body)
+
     //Express validation
     req.checkBody("email", "Enter a valid email address.").isEmail();
 
@@ -23,6 +25,7 @@ exports.createVenue = (req, res, next) => {
     } else {
         // normal processing here
     }
+
 
     const venue = new Venue({
         name: req.body.name,
@@ -38,12 +41,12 @@ exports.createVenue = (req, res, next) => {
 
     });
 
-    Venue.findOne({ name: req.body.name }, (err, existingUser) => {
+    Venue.findOne({ email: req.body.email }, (err, existingUser) => {
 
         if (existingUser) {
             req.flash('errors', { msg: 'This user is already exists.' })
             //return res.redirect('/createSportForm')
-            return res.json({status:"error"})
+            return res.json({status:"error",msg: 'This user is already exists.'})
 
         }
          venue.save((err) => {
