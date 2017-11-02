@@ -15,9 +15,9 @@ exports.createVenue = (req, res, next) => {
     //Express validation
     req.checkBody("email", "Enter a valid email address.").isEmail();
 
-    req.checkBody(
-        "phone",
-        "Enter a valid IND phone number.").isMobilePhone("en-IN");
+    // req.checkBody(
+    //     "phone",
+    //     "Enter a valid IND phone number.").isMobilePhone("en-IN");
     var errors = req.validationErrors();
     if (errors) {
         res.send(errors);
