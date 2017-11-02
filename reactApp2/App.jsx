@@ -17,7 +17,15 @@ class App extends React.Component {
                 this.setState({venues});
             });
     }
-    
+    updateVenuesList(){
+        axios.get(`/api/venuesList`)
+            .then(res => {
+                console.log(res)
+                const venues=res.data.values;
+                this.setState({venues});
+            });
+
+    }
     render() {
         var VenueListStyle = {
             color:'blue'
@@ -29,7 +37,7 @@ class App extends React.Component {
                                                                   data = {venue} />)} </h4>
 
 
-            <CreateVenue/>
+            <CreateVenue xyz={this.updateVenuesList()}/>
             </div>
         )
     }
@@ -65,7 +73,8 @@ class App extends React.Component {
                     console.log(res.data.status)
                     // const email=res;
 
-                    //this.props.xyz()
+                    this.props.xyz()
+
 
                 });
         }
