@@ -22,8 +22,10 @@ class App extends React.Component{
             });
     }
 
-    updateEditId(id){
-        this.setState({editId:id})
+    updateEditId(id,name,email,phone){
+        this.setState({editId:id,editName:name,editEmail:email,editPhone:phone})
+
+
     }
 
     updateVenuesList(){
@@ -40,6 +42,8 @@ class App extends React.Component{
     render(){
         return(
             <div>
+
+                <EditVenue editId={this.state.editId} editName={this.state.editName} editEmail={this.state.editEmail} editPhone={this.state.editPhone}/>
                 <h4>VenueList:</h4>
 
                 <ul>
@@ -47,7 +51,6 @@ class App extends React.Component{
 
                 </ul>
                 CreateVenue: <CreateVenue xyz={this.updateVenuesList}/>
-                <EditVenue editId={this.state.editId}/>
 
             </div>
         );
@@ -64,17 +67,18 @@ class Venue extends React.Component{
 
     sendEditId(){
 
-        this.props.updateEditId(this.props.data._id)
+        this.props.updateEditId(this.props.data._id,this.props.data.name,this.props.data.email,this.props.data.phone)
     }
 
     render(){
         return(
             <ul>
-
                 <li><div>{this.props.data._id}</div></li>
                 <li><div>{this.props.data.name}</div></li>
                 <li><div>{this.props.data.email}</div></li>
-                <input type="Button" value="edit" onClick={this.sendEditId} />
+                <li><div>{this.props.data.phone}</div></li>
+
+                <input type="Button" value="edit" readOnly onClick={this.sendEditId} />
 
             </ul>
 
@@ -89,21 +93,27 @@ class CreateVenue extends React.Component{
         super(props);
         this.updateEmail = this.updateEmail.bind(this);
         this.createVenue = this.createVenue.bind(this);
+        this.updateName = this.updateName.bind(this);
+        this.updatePhone = this.updatePhone.bind(this);
         this.state={
+            name:"",
             email:"",
-            phone:"9581469690"
+            phone:""
         };
+    }
+    updateName(e){
+        this.setState({name:e.target.value})
     }
     updateEmail(e){
         this.setState({email:e.target.value})
-        console.log(e.target.value)
-        console.log(this.state)
+    }
+    updatePhone(e){
+        this.setState({phone:e.target.value})
     }
     createVenue(e) {
         axios.post(`/api/createVenue`,this.state)
             .then(res => {
                 console.log(res.data.status)
-                // const email=res;
 
                 this.props.xyz()
 
@@ -112,10 +122,23 @@ class CreateVenue extends React.Component{
     render(){
         return(
             <div>
-                <input type="text" value={this.state.value}  onChange={this.updateEmail} />
+                <form>
+                    <label>
+                        Name:
+                        <input type="text" name="name" defaultValue={this.state.value}  onChange={this.updateName} />
+                    </label>
+                    <label>
+                        Email:
+                        <input type="text" name="email" defaultValue={this.state.value}  onChange={this.updateEmail} />
+                    </label>
+                    <label>
+                        Phone:
+                        <input type="text" name="phone" defaultValue={this.state.value}  onChange={this.updatePhone} />
+                    </label>
+                    <Button  onClick={this.createVenue}>Create</Button>
+                </form>
 
-                <Button onClick={this.createVenue} >Create</Button>
-                {/*<input type="button" value="UpdateEmail" onClick={this.createVenue} />*/}
+
             </div>
         )
     }
@@ -133,10 +156,23 @@ class EditVenue extends React.Component{
 
     render(){
         return(
-
-
+           /*{ <form>
+                <label>
+                    Name:
+                    <input type="text" name="name" defaultValue={this.state.value}  onChange={this.updateName} />
+                </label>
+                <label>
+                    Email:
+                    <input type="text" name="email" defaultValue={this.state.value}  onChange={this.updateEmail} />
+                </label>
+                <label>
+                    Phone:
+                    <input type="text" name="phone" defaultValue={this.state.value}  onChange={this.updatePhone} />
+                </label>
+                <Button onClick={this.update}>Update</Button>
+            </form>}*/
             <Button onClick={this.update}>Update</Button>
-        )
+                    )
     }
 }
 
